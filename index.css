@@ -1,0 +1,43 @@
+html{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+button{
+    font-size: 34px;
+    height: 60px;
+    width: 60px;
+}
+
+div{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height:500px;
+    border: solid black;
+}
+
+p{
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.display{
+    font-size: 34px;
+    box-sizing: border-box;
+    width: 270px;
+    height: 60px;
+    padding: 4px;
+    border: solid black;
+}
