@@ -4,7 +4,7 @@ let secondNum = "";
 
 const button = document.querySelectorAll("button");
 const displayContent = document.querySelector(".display");
-
+const operatorArr = ["+", "-", "×", "÷"]
 
 
 function add(numOne, numTwo){
@@ -27,26 +27,64 @@ function divide(numOne, numTwo){
 
 function operate(numOne, numTwo, operate){
     if(operate === "×"){
-        multiply(numOne, numTwo)
+        multiply(numOne, numTwo);
     }
 }
 
-function display(){
-    displayContent.textContent = firstNum;
+function display(contents){
+    displayContent.textContent = contents;
 
 }
+
+function clearDisplay(){
+    firstNum = "";
+    operator = "";
+    secondNum = "";
+    display("");
+}
+
+function isOperator(operator){
+    if(operatorArr.includes(operator)){
+        return true;
+    }
+    else{
+        return false;
+    }
+}
+
+
 button.forEach(element => {
     element.addEventListener(("click"), () =>{
-        firstNum += element.textContent;
-        console.log(firstNum);
-        display();
+        if(element.textContent === "AC"){
+                clearDisplay();
+        }
+        else if(isOperator(element.textContent)){
+            operator = element.textContent;
+            display("");
+        }
+        if(firstNum.length < 15){
+            
+
+            if(isOperator(operator)){
+                secondNum += element.textContent;
+                console.log(element.textContent);
+                display(secondNum);
+            }
+
+            else{
+                firstNum += element.textContent;
+                console.log(firstNum.length <= 15);
+                display(firstNum);
+            }
+        }
         
+        else{
+
+        }
+
+
     })
 });
-// console.log(button)
-// button.addEventListener("click", () => {
-//     console.log("hi")
-// });
 
 
 

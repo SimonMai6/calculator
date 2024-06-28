@@ -1,12 +1,12 @@
+
 html{
-    height: 100%;
-    width: 100%;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    
 }
-
 
 button{
     font-size: 34px;
@@ -14,7 +14,23 @@ button{
     width: 60px;
 }
 
-div{
+
+
+p{
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.warning{
+    text-align: center;
+    font-size: 34px;
+}
+
+
+.calculator{
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -25,13 +41,6 @@ div{
     border: solid black;
 }
 
-p{
-    margin: 10px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 9px;
-}
 
 .display{
     font-size: 34px;
