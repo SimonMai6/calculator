@@ -1,7 +1,9 @@
-let firstNum = 0;
+let firstNum = "";
 let operator = "";
-let secondNum = 0;
+let secondNum = "";
 
+const button = document.querySelectorAll("button");
+const displayContent = document.querySelector(".display");
 
 
 
@@ -24,15 +26,28 @@ function divide(numOne, numTwo){
 }
 
 function operate(numOne, numTwo, operate){
-    if(operate === "*"){
+    if(operate === "×"){
         multiply(numOne, numTwo)
     }
 }
 
 function display(){
-    
-}
+    displayContent.textContent = firstNum;
 
-document.getElementById
+}
+button.forEach(element => {
+    element.addEventListener(("click"), () =>{
+        firstNum += element.textContent;
+        console.log(firstNum);
+        display();
+        
+    })
+});
+// console.log(button)
+// button.addEventListener("click", () => {
+//     console.log("hi")
+// });
+
+
 
 
