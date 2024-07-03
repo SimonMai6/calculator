@@ -45,11 +45,10 @@ function display (contents) {
 
 }
 
-function clearDisplay () {
+function resetNumbers () {
     firstNum = "";
     operator = "";
     secondNum = "";
-    display("");
 }
 
 function isOperator (operator) {
@@ -62,17 +61,16 @@ function isWithinLimit (wordLength) {
 
 
 function addToDisplay (element) {
+    
     if (!isOperator(operator)) {
         if (isWithinLimit(firstNum.length)) {
             firstNum += element.textContent;
-            console.log(element.textContent);
             display(firstNum);
         }
     }
     else {
         if (isWithinLimit(secondNum.length)) {
             secondNum += element.textContent;
-            console.log(element.textContent);
             display(secondNum);
         }
     }
@@ -81,22 +79,46 @@ function addToDisplay (element) {
 button.forEach( (element) => {
     element.addEventListener( ("click"), () =>{
         if (element.textContent === "AC") {
-            clearDisplay();
-        }
-        else if (isOperator(element.textContent)) {
-            operator = element.textContent;
+            resetNumbers();
             display("");
         }
-        else if (element.textContent === "=") {
-            let sum = operate(firstNum, secondNum, operator);
-            clearDisplay();
-            display(sum);
+        else if (isOperator(element.textContent) && firstNum.length >= 1) {
+            console.log(firstNum.length)
+            if (isOperator(operator)) {
+
+                let sum = isWithinLimit(operate(firstNum, secondNum, operator).length) ? 
+                operate(firstNum, secondNum, operator).toString().slice(0,15) : 
+                operate(firstNum, secondNum, operator).toExponential(1);
+                resetNumbers();
+                firstNum = sum;
+                display(sum);
+            }
+            else {
+                operator = element.textContent;
+                console.log("hi")
+                display("");
+            }
+        }
+        else if (element.textContent === "=" && secondNum.length >= 1) {
+            if (secondNum === "0") {
+                display("roflcopter")
+            }
+            else {
+                let sum = isWithinLimit(operate(firstNum, secondNum, operator).length) ? 
+                operate(firstNum, secondNum, operator).toString().slice(0,15) : 
+                operate(firstNum, secondNum, operator).toExponential(1);
+                resetNumbers();
+                firstNum = sum;
+                display(sum);
+            }
+
         }
         else {
-            addToDisplay(element);
+            if (element.textContent !== "=" && !(isOperator(element.textContent))) {
+                addToDisplay(element);
+            }
+            
         }
-        
-
     });
 });
 
