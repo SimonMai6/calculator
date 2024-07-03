@@ -55,8 +55,8 @@ function isOperator (operator) {
     return operatorArr.includes(operator);
 }
 
-function isWithinLimit (wordLength) {
-    return wordLength < 15;
+function isWithinLimit (numLength) {
+    return numLength < 15;
 }
 
 
@@ -85,8 +85,7 @@ button.forEach( (element) => {
         else if (isOperator(element.textContent) && firstNum.length >= 1) {
             console.log(firstNum.length)
             if (isOperator(operator)) {
-
-                let sum = isWithinLimit(operate(firstNum, secondNum, operator).length) ? 
+                let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
                 operate(firstNum, secondNum, operator).toString().slice(0,15) : 
                 operate(firstNum, secondNum, operator).toExponential(1);
                 resetNumbers();
@@ -104,7 +103,7 @@ button.forEach( (element) => {
                 display("roflcopter")
             }
             else {
-                let sum = isWithinLimit(operate(firstNum, secondNum, operator).length) ? 
+                let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
                 operate(firstNum, secondNum, operator).toString().slice(0,15) : 
                 operate(firstNum, secondNum, operator).toExponential(1);
                 resetNumbers();
