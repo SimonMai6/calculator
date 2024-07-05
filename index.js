@@ -1,6 +1,8 @@
 let firstNum = "";
 let operator = "";
 let secondNum = "";
+let scope = true;
+
 
 const button = document.querySelectorAll("button");
 const displayContent = document.querySelector(".display");
@@ -61,8 +63,11 @@ function isWithinLimit (numLength) {
 
 
 function addToDisplay (element) {
-    
-    if (!isOperator(operator)) {
+    if ((firstNum === "0" && element.textContent === "0") || 
+    (secondNum === "0" && element.textContent === "0")) {
+        console.log("hi")
+    }
+    else if (!isOperator(operator) && isSecondNum()) {
         if (isWithinLimit(firstNum.length)) {
             firstNum += element.textContent;
             display(firstNum);
@@ -76,21 +81,38 @@ function addToDisplay (element) {
     }
 }
 
+
+function isSecondNum(){
+    return scope;
+}
+
+function displaySum(element) {
+    let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
+    operate(firstNum, secondNum, operator).toString().slice(0,15) : 
+    operate(firstNum, secondNum, operator).toExponential(1);
+    resetNumbers();
+    firstNum = sum;
+    display(sum);
+    operator = element.textContent;
+    scope = false;
+}
+
+
 button.forEach( (element) => {
     element.addEventListener( ("click"), () =>{
+        // if (!(secondNum === "") && isOperator(operator) && !isSecondNum()) { 
+        //     firstNum = secondNum;
+        //     secondNum = "";
+        //     scope = true;
+        // }
         if (element.textContent === "AC") {
             resetNumbers();
             display("");
+            scope = true;
         }
         else if (isOperator(element.textContent) && firstNum.length >= 1) {
-            console.log(firstNum.length)
             if (isOperator(operator)) {
-                let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
-                operate(firstNum, secondNum, operator).toString().slice(0,15) : 
-                operate(firstNum, secondNum, operator).toExponential(1);
-                resetNumbers();
-                firstNum = sum;
-                display(sum);
+                displaySum(element);
             }
             else {
                 operator = element.textContent;
@@ -99,18 +121,12 @@ button.forEach( (element) => {
             }
         }
         else if (element.textContent === "=" && secondNum.length >= 1) {
-            if (secondNum === "0") {
+            if (secondNum === "0" && operator === "÷") {
                 display("roflcopter")
             }
             else {
-                let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
-                operate(firstNum, secondNum, operator).toString().slice(0,15) : 
-                operate(firstNum, secondNum, operator).toExponential(1);
-                resetNumbers();
-                firstNum = sum;
-                display(sum);
+                displaySum(element);
             }
-
         }
         else {
             if (element.textContent !== "=" && !(isOperator(element.textContent))) {
