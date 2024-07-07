@@ -66,7 +66,6 @@ function isWithinLimit (numLength) {
 function addToDisplay (element) {
     if ((firstNum === "0" && element.textContent === "0") || 
     (secondNum === "0" && element.textContent === "0")) {
-        console.log("hi")
     }
     else if (!isOperator(operator) && isSecondNum()) {
         if (isWithinLimit(firstNum.length)) {
