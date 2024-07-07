@@ -2,6 +2,7 @@ let firstNum = "";
 let operator = "";
 let secondNum = "";
 let scope = true;
+let index = 1;
 
 
 const button = document.querySelectorAll("button");
@@ -15,16 +16,16 @@ function add (numOne, numTwo) {
 
 
 function subtract (numOne, numTwo) {
-    return numOne - numTwo;
+    return Number(numOne) - Number(numTwo);
 }
 
 
 function multiply (numOne, numTwo) {
-    return numOne * numTwo;
+    return Number(numOne) * Number(numTwo);
 }
 
 function divide (numOne, numTwo) {
-    return numOne/numTwo;
+    return Number(numOne) / Number(numTwo);
 }
 
 function operate (numOne, numTwo, operate) {
@@ -79,12 +80,13 @@ function addToDisplay (element) {
             display(secondNum);
         }
     }
+    index++;
 }
 
 
 function isSecondNum(){
     return scope;
-}
+}z
 
 function displaySum(element) {
     let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
@@ -100,15 +102,15 @@ function displaySum(element) {
 
 button.forEach( (element) => {
     element.addEventListener( ("click"), () =>{
-        // if (!(secondNum === "") && isOperator(operator) && !isSecondNum()) { 
-        //     firstNum = secondNum;
-        //     secondNum = "";
-        //     scope = true;
-        // }
+       
         if (element.textContent === "AC") {
+            index = 1;
             resetNumbers();
             display("");
             scope = true;
+        }
+        else if (secondNum === "0" && operator === "÷") {
+            display("roflcopter");
         }
         else if (isOperator(element.textContent) && firstNum.length >= 1) {
             if (isOperator(operator)) {
@@ -116,23 +118,21 @@ button.forEach( (element) => {
             }
             else {
                 operator = element.textContent;
-                console.log("hi")
                 display("");
+                index++;
             }
         }
         else if (element.textContent === "=" && secondNum.length >= 1) {
-            if (secondNum === "0" && operator === "÷") {
-                display("roflcopter")
-            }
-            else {
-                displaySum(element);
-            }
+            displaySum(element);
         }
-        else {
-            if (element.textContent !== "=" && !(isOperator(element.textContent))) {
-                addToDisplay(element);
-            }
-            
+        else if (element.textContent !== "=" && !(isOperator(element.textContent))) {
+            addToDisplay(element);
+        }
+
+        if (element.textContent === "=" && index === 4) {
+            firstNum = "";
+            scope = true;
+            index = 1;
         }
     });
 });

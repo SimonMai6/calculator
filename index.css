@@ -15,8 +15,8 @@ button{
 
 
 
-p{
-    margin: 10px;
+div{
+    margin: 6px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -36,7 +36,7 @@ p{
     align-items: center;
     justify-content: center;
     width: 300px;
-    height:500px;
+    height:450px;
     border: solid black;
 }
 
@@ -48,6 +48,6 @@ p{
     height: 60px;
     padding: 4px;
     border: solid black;
-    text-align: right;
+    justify-content: right;
 
 }
