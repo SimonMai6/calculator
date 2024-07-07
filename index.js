@@ -86,7 +86,7 @@ function addToDisplay (element) {
 
 function isSecondNum(){
     return scope;
-}z
+}
 
 function displaySum(element) {
     let sum = isWithinLimit(operate(firstNum, secondNum, operator).toString().length) ? 
