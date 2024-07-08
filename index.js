@@ -1,8 +1,8 @@
 let firstNum = "";
 let operator = "";
 let secondNum = "";
+let equation = "";
 let scope = true;
-let index = 1;
 
 
 const button = document.querySelectorAll("button");
@@ -66,6 +66,7 @@ function isWithinLimit (numLength) {
 function addToDisplay (element) {
     if ((firstNum === "0" && element.textContent === "0") || 
     (secondNum === "0" && element.textContent === "0")) {
+        
     }
     else if (!isOperator(operator) && isSecondNum()) {
         if (isWithinLimit(firstNum.length)) {
@@ -79,7 +80,6 @@ function addToDisplay (element) {
             display(secondNum);
         }
     }
-    index++;
 }
 
 
@@ -101,12 +101,12 @@ function displaySum(element) {
 
 button.forEach( (element) => {
     element.addEventListener( ("click"), () =>{
-       
+        
         if (element.textContent === "AC") {
-            index = 1;
             resetNumbers();
             display("");
             scope = true;
+            equation = "";
         }
         else if (secondNum === "0" && operator === "÷") {
             display("roflcopter");
@@ -114,28 +114,32 @@ button.forEach( (element) => {
         else if (isOperator(element.textContent) && firstNum.length >= 1) {
             if (isOperator(operator)) {
                 displaySum(element);
+                equation = "";
             }
             else {
                 operator = element.textContent;
                 display("");
-                index++;
+                equation += element.textContent;
             }
         }
         else if (element.textContent === "=" && secondNum.length >= 1) {
             displaySum(element);
+            equation = "";
         }
         else if (element.textContent !== "=" && !(isOperator(element.textContent))) {
-            addToDisplay(element);
-        }
+            if (displayContent.textContent.includes(".") && element.textContent === ".") {
 
-        if (element.textContent === "=" && index === 4) {
-            firstNum = "";
+            }
+            else{
+                addToDisplay(element);
+                equation += element.textContent;
+            }
+        }
+        console.log(equation);
+        if (!isSecondNum() && Number.isInteger(Number(equation.charAt(0))) && isOperator(equation.charAt(1))) {
+            firstNum = secondNum;
+            secondNum = "";
             scope = true;
-            index = 1;
         }
     });
 });
-
-
-
-
