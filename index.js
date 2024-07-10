@@ -7,7 +7,7 @@ let scope = true;
 
 const button = document.querySelectorAll("button");
 const displayContent = document.querySelector(".display");
-const operatorArr = ["+", "-", "×", "÷"];
+const operatorArr = ["+", "-", "×", "÷", "*", "/"];
 
 
 function add (numOne, numTwo) {
@@ -36,9 +36,14 @@ function operate (numOne, numTwo, operate) {
             return subtract(numOne, numTwo);
         case "×":
             return multiply(numOne, numTwo);
+        case "*":
+            return multiply(numOne, numTwo);
         case "÷":
             return divide(numOne, numTwo);
-
+        case "/":
+            return divide(numOne, numTwo);
+        default:
+            return "ERROR";
     }
 
 }
@@ -64,19 +69,19 @@ function isWithinLimit (numLength) {
 
 
 function addToDisplay (element) {
-    if ((firstNum === "0" && element.textContent === "0") || 
-    (secondNum === "0" && element.textContent === "0")) {
+    if ((firstNum === "0" && element === "0") || 
+    (secondNum === "0" && element === "0")) {
         
     }
     else if (!isOperator(operator) && isSecondNum()) {
         if (isWithinLimit(firstNum.length)) {
-            firstNum += element.textContent;
+            firstNum += element;
             display(firstNum);
         }
     }
     else {
         if (isWithinLimit(secondNum.length)) {
-            secondNum += element.textContent;
+            secondNum += element;
             display(secondNum);
         }
     }
@@ -94,64 +99,79 @@ function displaySum(element) {
     resetNumbers();
     firstNum = sum;
     display(sum);
-    operator = element.textContent;
+    operator = element;
     scope = false;
 }
 
-
-button.forEach( (element) => {
-    element.addEventListener( ("click"), () =>{
-        if (element.textContent === "⌫" && operator !== "=" && !isOperator(operator)) {
-            if (!isOperator(operator)) {
-                firstNum = firstNum.slice(0,firstNum.length-1);
-                display(firstNum);
-            }
-            else {
-                secondNum = secondNum.slice(0, secondNum.length-1);
-                console.log(secondNum)
-                display(secondNum);
-            }
+function calculate(element) {
+    if ((element === "⌫" || element === "Backspace")
+        && !isOperator(operator) && element === "Backspace") {
+        if (!isOperator(operator)) {
+            firstNum = firstNum.slice(0,firstNum.length-1);
+            display(firstNum);
         }
-        if (element.textContent === "AC") {
-            resetNumbers();
-            display("");
-            scope = true;
-            equation = "";
+        else {
+            secondNum = secondNum.slice(0, secondNum.length-1);
+            display(secondNum);
         }
-        else if (secondNum === "0" && operator === "÷") {
-            display("roflcopter");
-        }
-        else if (isOperator(element.textContent) && firstNum.length >= 1) {
-            if (isOperator(operator)) {
-                displaySum(element);
-                equation = "";
-            }
-            else {
-                operator = element.textContent;
-                display("");
-                equation += element.textContent;
-            }
-        }
-        else if (element.textContent === "=" && secondNum.length >= 1) {
+    }
+    if (element === "AC") {
+        resetNumbers();
+        display("");
+        scope = true;
+        equation = "";
+    }
+    else if (secondNum === "0" && (operator === "÷" || operator === "/")) {
+        display("roflcopter");
+        resetNumbers();
+    }
+    else if (isOperator(element) && firstNum.length >= 1) {
+        if (isOperator(operator)) {
             displaySum(element);
             equation = "";
         }
-        else if (element.textContent !== "=" && !(isOperator(element.textContent))) {
-            if (displayContent.textContent.includes(".") && element.textContent === ".") {
-
-            }
-            else if (element.textContent === "⌫") {
-
-            }
-            else{
-                addToDisplay(element);
-                equation += element.textContent;
-            }
+        else {
+            operator = element;
+            display("");
+            equation += element;
         }
-        if (!isSecondNum() && Number.isInteger(Number(equation.charAt(0))) && isOperator(equation.charAt(1))) {
-            firstNum = secondNum;
-            secondNum = "";
-            scope = true;
+    }
+    else if ((element === "=" || element === "Enter") && secondNum.length >= 1) {
+        displaySum(element);
+        equation = "";
+    }
+    else if ((element !== "=" || element !== "Enter") && !(isOperator(element))) {
+        if (displayContent.textContent.includes(".") && element === ".") {
+
         }
+        else if (element === "⌫" || element === "Backspace") {
+
+        }
+        else {
+            addToDisplay(element);
+            equation += element;
+        }
+    }
+    // did not account for the position of a negative number fix
+    if (!isSecondNum() && Number.isInteger(Number(equation.charAt(0))) && isOperator(equation.charAt(1))) {
+        firstNum = secondNum;
+        secondNum = "";
+        scope = true;
+    }
+};
+
+
+button.forEach( (element) => {
+    element.addEventListener( ("click"), () => {
+        calculate(element.textContent);
     });
+});
+
+document.addEventListener( ("keydown"), (event) => {
+    if ((Number.isInteger(Number(event.key)) && event.key !== " ") 
+        || isOperator(event.key) || event.key === "=" 
+        || event.key === "Backspace" || event.key === "."
+        || event.key === "Enter") {
+        calculate(event.key);
+    }
 });
