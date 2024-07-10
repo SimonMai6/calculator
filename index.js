@@ -101,7 +101,17 @@ function displaySum(element) {
 
 button.forEach( (element) => {
     element.addEventListener( ("click"), () =>{
-        
+        if (element.textContent === "⌫" && operator !== "=" && !isOperator(operator)) {
+            if (!isOperator(operator)) {
+                firstNum = firstNum.slice(0,firstNum.length-1);
+                display(firstNum);
+            }
+            else {
+                secondNum = secondNum.slice(0, secondNum.length-1);
+                console.log(secondNum)
+                display(secondNum);
+            }
+        }
         if (element.textContent === "AC") {
             resetNumbers();
             display("");
@@ -130,12 +140,14 @@ button.forEach( (element) => {
             if (displayContent.textContent.includes(".") && element.textContent === ".") {
 
             }
+            else if (element.textContent === "⌫") {
+
+            }
             else{
                 addToDisplay(element);
                 equation += element.textContent;
             }
         }
-        console.log(equation);
         if (!isSecondNum() && Number.isInteger(Number(equation.charAt(0))) && isOperator(equation.charAt(1))) {
             firstNum = secondNum;
             secondNum = "";
