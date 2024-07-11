@@ -44,6 +44,10 @@ div{
     background-color:rgb(168, 12, 116);
 }
 
+.backspace{
+    background-color:#b4173e;
+}
+
 .calculator{
     display: flex;
     flex-direction: column;

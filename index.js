@@ -87,6 +87,10 @@ function addToDisplay (element) {
     }
 }
 
+function removeNegative(negative) {
+    return negative.charAt(0) === "-" ? negative.slice(1, negative.length) : negative;
+}
+
 
 function isSecondNum(){
     return scope;
@@ -105,7 +109,7 @@ function displaySum(element) {
 
 function calculate(element) {
     if ((element === "⌫" || element === "Backspace")
-        && !isOperator(operator) && element === "Backspace") {
+        && !isOperator(operator)) {
         if (!isOperator(operator)) {
             firstNum = firstNum.slice(0,firstNum.length-1);
             display(firstNum);
@@ -153,7 +157,8 @@ function calculate(element) {
         }
     }
     // did not account for the position of a negative number fix
-    if (!isSecondNum() && Number.isInteger(Number(equation.charAt(0))) && isOperator(equation.charAt(1))) {
+    if (!isSecondNum() && Number.isInteger(Number(removeNegative(equation).charAt(0))) 
+        && isOperator(equation.charAt(1))) {
         firstNum = secondNum;
         secondNum = "";
         scope = true;
